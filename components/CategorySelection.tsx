@@ -128,14 +128,14 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
       )}
 
       {/* Categories List */}
-      <div className="space-y-3 mb-8">
+      <div className="space-y-1 mb-8">
         {isLoading ? (
           <div className="flex justify-center py-8">
             <Loader className="w-8 h-8 animate-spin text-gray-500" />
           </div>
         ) : (
           categories.map((category) => (
-            <div key={category.id} className="flex items-center p-2 hover:bg-gray-50 rounded-lg transition-colors">
+            <div key={category.id} className="flex items-center pl-6 py-1 hover:bg-gray-50 rounded-lg transition-colors">
               <input
                 type="checkbox"
                 id={`category-${category.id}`}
@@ -153,12 +153,7 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
           ))
         )}
       </div>
-
-      {/* Pagination with item range display */}
-      <div className="flex flex-col items-center gap-4">
-        <div className="text-sm text-gray-600">
-          Showing {startItem} to {endItem} of {totalItems} categories
-        </div>
+      <div className="flex flex-col items-center gap-2">
         <div className="flex justify-center items-center gap-2">
           <button 
             onClick={() => setPage(1)}
