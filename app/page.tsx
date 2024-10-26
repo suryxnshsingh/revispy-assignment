@@ -21,7 +21,7 @@ const Page = async () => {
 
     return (
         <div>
-            <div className="flex justify-end m-4"><LogoutButton /></div>
+            <div className="flex justify-end m-4  "><LogoutButton /></div>
             <div className="flex flex-col justify-center items-center">
                 <div className="sm:border-[1px] border-0 border-[#c1c1c1] w-full sm:w-[35svw] rounded-2xl">
                     <div className="flex flex-col justify-center items-center">

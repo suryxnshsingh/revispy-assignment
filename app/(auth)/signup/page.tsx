@@ -42,7 +42,7 @@ const SignUp = () => {
                         value={name} 
                         onChange={(e) => setName(e.target.value)} 
                         placeholder="Name" 
-                        className="border-[1px] border-[#c1c1c1] rounded-sm w-[svw] sm:w-[30svw] py-2 px-2" 
+                        className="border-[1px] border-[#c1c1c1] dark:bg-neutral-900 rounded-sm w-[svw] sm:w-[30svw] py-2 px-2" 
                         required 
                     />
                     <p className="pb-1 pt-4">Email</p>
@@ -51,7 +51,7 @@ const SignUp = () => {
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
                         placeholder="Email" 
-                        className="border-[1px] border-[#c1c1c1] rounded-sm w-[svw] sm:w-[30svw] py-2 px-2" 
+                        className="border-[1px] border-[#c1c1c1] dark:bg-neutral-900 rounded-sm w-[svw] sm:w-[30svw] py-2 px-2" 
                         required 
                     />
                     <p className="pb-1 pt-4">Password</p>
@@ -60,18 +60,18 @@ const SignUp = () => {
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         placeholder="Password" 
-                        className="border-[1px] border-[#c1c1c1] rounded-sm w-[svw] sm:w-[30svw] py-2 px-2" 
+                        className="border-[1px] border-[#c1c1c1] dark:bg-neutral-900 rounded-sm w-[svw] sm:w-[30svw] py-2 px-2" 
                         required 
                     />
                     <button 
                         type="submit"
-                        className="bg-black text-white py-3 mt-8 rounded-sm"
+                        className="bg-black dark:bg-neutral-800 text-white dark:text-white py-3 mt-8 rounded-sm"
                     >
                         CREATE ACCOUNT
                     </button>
                 </form>
-                <div className="mt-8 text-[#333333]">
-                    Have an account? <Link href="/signin" className="text-black">LOGIN</Link>
+                <div className="mt-8 text-[#333333] dark:text-[#c1c1c1]">
+                    Have an account? <Link href="/signin" className="text-black dark:text-white">LOGIN</Link>
                 </div>
             </div>
         </div>
