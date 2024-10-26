@@ -1,13 +1,20 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest } from 'next/server'
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-    request: NextRequest,
-    { params }: { params: { userId: string } }
-) {
-    const userId = parseInt(params.userId);
+type Context = {
+  params: {
+    userId: string
+  }
+}
+
+export async function GET(request: NextRequest, context: Context) {
+    const userId = parseInt(context.params.userId);
+
+    if (isNaN(userId)) {
+        return Response.json({ message: "Invalid user ID" }, { status: 400 });
+    }
 
     try {
         const user = await prisma.user.findUnique({
@@ -16,12 +23,12 @@ export async function GET(
         });
 
         if (!user) {
-            return NextResponse.json({ message: "User not found" }, { status: 404 });
+            return Response.json({ message: "User not found" }, { status: 404 });
         }
 
-        return NextResponse.json({ interests: user.interests });
+        return Response.json({ interests: user.interests });
     } catch (error) {
         console.error("Error fetching user interests:", error);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+        return Response.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
