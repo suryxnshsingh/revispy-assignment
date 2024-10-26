@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get('authToken')?.value
-    const isAuthPage = request.nextUrl.pathname === '/signin' || request.nextUrl.pathname === '/signup'
+    const isAuthPage = request.nextUrl.pathname === '/signin' || request.nextUrl.pathname === '/signup' || request.nextUrl.pathname === '/verify'
 
     // If user is not authenticated and is trying to access a protected page
     if (!token && !isAuthPage) {
