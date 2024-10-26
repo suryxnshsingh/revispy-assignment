@@ -4,9 +4,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function POST(request: Request) {
-    const { userId, interests } = await request.json(); // Ensure "interests" is being read
+    const { userId, interests } = await request.json();
 
-    // Validate inputs
     if (!userId || !Array.isArray(interests)) {
         return NextResponse.json({ message: "Invalid data provided" }, { status: 400 });
     }

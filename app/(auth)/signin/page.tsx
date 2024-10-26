@@ -21,7 +21,7 @@ const SignIn = () => {
     
             if (res.status === 200) {
                 console.log("Login successful:", res.data);
-                router.push("/"); // Redirect to the home page after login
+                router.push("/");
             } else {
                 console.error("Login failed:", res.data.message);
             }

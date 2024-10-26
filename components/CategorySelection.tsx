@@ -26,9 +26,7 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
 
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-  // Theme toggle effect
   useEffect(() => {
-    // Check initial theme
     if (typeof window !== 'undefined') {
       setIsDarkMode(document.documentElement.classList.contains('dark'));
     }
@@ -38,7 +36,6 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
     if (typeof window !== 'undefined') {
       document.documentElement.classList.toggle('dark');
       setIsDarkMode(!isDarkMode);
-      // Optionally save preference to localStorage
       localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
     }
   };
@@ -121,7 +118,6 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
 
   return (
     <div className="p-6 max-w-2xl mx-auto bg-white dark:bg-neutral-950 text-gray-900 dark:text-gray-100 rounded-xl relative">
-      {/* Status Messages */}
       {saveStatus === 'saving' && (
         <Alert className="mb-4 bg-blue-50 dark:bg-blue-900/30">
           <AlertDescription className="flex items-center text-blue-800 dark:text-blue-200">
@@ -145,7 +141,6 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
         </Alert>
       )}
 
-      {/* Categories List */}
       <div className="space-y-1 mb-8">
         {isLoading ? (
           <div className="flex justify-center py-8">
@@ -178,7 +173,6 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
         )}
       </div>
 
-      {/* Pagination */}
       <div className="flex flex-col items-center gap-2">
         <div className="flex justify-center items-center gap-2">
           <button 

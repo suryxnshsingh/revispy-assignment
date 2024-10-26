@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export async function GET(
   _: Request,
-  { params }: { params: any }  // Remove specific typing here
+  { params }: { params: any }
 ) {
   const userId = parseInt(params.userId);
 

@@ -11,7 +11,6 @@ const Verify = () => {
 
     setOtp([...otp.map((d, idx) => (idx === index ? element.value : d))]);
 
-    // Focus next input
     if (element.value !== '') {
       if (index < 7) {
         inputRefs.current[index + 1]?.focus();
@@ -20,7 +19,6 @@ const Verify = () => {
   };
 
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-    // Move to previous input on backspace
     if (e.key === 'Backspace') {
       if (index > 0 && otp[index] === '') {
         inputRefs.current[index - 1]?.focus();
@@ -31,7 +29,8 @@ const Verify = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const otpString = otp.join('');
-    // Handle OTP verification here
+
+    //logic
     console.log('Submitted OTP:', otpString);
   };
 

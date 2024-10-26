@@ -7,7 +7,6 @@ const Navbar = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
     useEffect(() => {
-        // Check initial theme
         if (typeof window !== 'undefined') {
           setIsDarkMode(document.documentElement.classList.contains('dark'));
         }
