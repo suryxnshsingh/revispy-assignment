@@ -1,15 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(request: Request, { params }: { params: { userId: string } }) {
+export async function GET(
+    request: NextRequest,
+    { params }: { params: { userId: string } }
+) {
     const userId = parseInt(params.userId);
 
     try {
         const user = await prisma.user.findUnique({
             where: { id: userId },
-            include: { interests: true }, // Include interests when fetching user
+            include: { interests: true },
         });
 
         if (!user) {

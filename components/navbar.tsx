@@ -17,7 +17,6 @@ const Navbar = () => {
         if (typeof window !== 'undefined') {
           document.documentElement.classList.toggle('dark');
           setIsDarkMode(!isDarkMode);
-          // Optionally save preference to localStorage
           localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
         }
       };
