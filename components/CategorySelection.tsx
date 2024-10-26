@@ -12,24 +12,28 @@ interface CategorySelectionProps {
   userId: number;
 }
 
+const ITEMS_PER_PAGE = 6;
+
 const CategorySelection = ({ userId }: CategorySelectionProps) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(50); // Total number of items is 50
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+
+  const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
   const fetchCategories = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
-      const res = await fetch(`/api/categories?page=${page}`);
+      const res = await fetch(`/api/categories?page=${page}&limit=${ITEMS_PER_PAGE}`);
       if (!res.ok) throw new Error('Failed to fetch categories');
       const data = await res.json();
       setCategories(data.categories);
-      setTotalPages(data.totalPages);
+      setTotalItems(data.total || 50); // Fallback to 50 if total is not provided
     } catch (err) {
       setError('Error loading categories. Please try again.');
     } finally {
@@ -89,6 +93,10 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
     }
   };
 
+  // Calculate the current page range for display
+  const startItem = (page - 1) * ITEMS_PER_PAGE + 1;
+  const endItem = Math.min(page * ITEMS_PER_PAGE, totalItems);
+
   if (error) {
     return (
       <Alert variant="destructive" className="m-4">
@@ -146,43 +154,48 @@ const CategorySelection = ({ userId }: CategorySelectionProps) => {
         )}
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center items-center gap-2">
-        <button 
-          onClick={() => setPage(1)}
-          disabled={page === 1 || isLoading}
-          className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
-          aria-label="First page"
-        >
-          &laquo;
-        </button>
-        <button 
-          onClick={() => setPage(p => Math.max(p - 1, 1))}
-          disabled={page === 1 || isLoading}
-          className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
-          aria-label="Previous page"
-        >
-          &lsaquo;
-        </button>
-        <span className="px-4 py-2 font-medium">
-          {page} / {totalPages}
-        </span>
-        <button 
-          onClick={() => setPage(p => Math.min(p + 1, totalPages))}
-          disabled={page === totalPages || isLoading}
-          className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
-          aria-label="Next page"
-        >
-          &rsaquo;
-        </button>
-        <button 
-          onClick={() => setPage(totalPages)}
-          disabled={page === totalPages || isLoading}
-          className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
-          aria-label="Last page"
-        >
-          &raquo;
-        </button>
+      {/* Pagination with item range display */}
+      <div className="flex flex-col items-center gap-4">
+        <div className="text-sm text-gray-600">
+          Showing {startItem} to {endItem} of {totalItems} categories
+        </div>
+        <div className="flex justify-center items-center gap-2">
+          <button 
+            onClick={() => setPage(1)}
+            disabled={page === 1 || isLoading}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="First page"
+          >
+            &laquo;
+          </button>
+          <button 
+            onClick={() => setPage(p => Math.max(p - 1, 1))}
+            disabled={page === 1 || isLoading}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Previous page"
+          >
+            &lsaquo;
+          </button>
+          <span className="px-4 py-2 font-medium">
+            Page {page} of {totalPages}
+          </span>
+          <button 
+            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+            disabled={page === totalPages || isLoading}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Next page"
+          >
+            &rsaquo;
+          </button>
+          <button 
+            onClick={() => setPage(totalPages)}
+            disabled={page === totalPages || isLoading}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:hover:bg-transparent"
+            aria-label="Last page"
+          >
+            &raquo;
+          </button>
+        </div>
       </div>
     </div>
   );
