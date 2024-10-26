@@ -1,32 +1,33 @@
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// Use a singleton pattern to prevent multiple instances in serverless environments
+const prisma = globalThis.prisma || new PrismaClient();
+if (process.env.NODE_ENV !== 'production') globalThis.prisma = prisma;
 
-// @ts-ignore
 export async function GET(
-   req: NextRequest,
-   { params }: { params: { userId: string } }
+  req: NextRequest,
+  { params }: { params: { userId: string } }
 ) {
-   const userId = parseInt(params.userId);
+  const userId = parseInt(params.userId);
 
-   if (isNaN(userId)) {
-       return Response.json({ message: "Invalid user ID" }, { status: 400 });
-   }
+  if (isNaN(userId)) {
+    return NextResponse.json({ message: "Invalid user ID" }, { status: 400 });
+  }
 
-   try {
-       const user = await prisma.user.findUnique({
-           where: { id: userId },
-           include: { interests: true },
-       });
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { interests: true },
+    });
 
-       if (!user) {
-           return Response.json({ message: "User not found" }, { status: 404 });
-       }
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
 
-       return Response.json({ interests: user.interests });
-   } catch (error) {
-       console.error("Error fetching user interests:", error);
-       return Response.json({ message: "Internal Server Error" }, { status: 500 });
-   }
+    return NextResponse.json({ interests: user.interests });
+  } catch (error) {
+    console.error("Error fetching user interests:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+  }
 }
